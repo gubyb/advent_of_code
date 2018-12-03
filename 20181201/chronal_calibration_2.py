@@ -1,20 +1,27 @@
+from itertools import cycle
+
 def main():
-    with open('input.txt', 'r') as f:
+    with open('input_2.txt', 'r') as f:
         lines = f.read().splitlines()
         result = chronal_calibration(lines)
-        print()
+        print('Result is: {}'.format(result))
 
 def chronal_calibration(lines):
         sum = 0
-        for line in lines:
+        old_sums = {sum}
+        cycle_lines = cycle(lines)
+        for line in cycle_lines:
                 if '+' in line:
                         numeric = int(line.split('+')[1])
                         sum += numeric
                 elif '-' in line:
                         numeric = int(line.split('-')[1])
                         sum -= numeric
-        print('Calibrated total is {}'.format(sum))
-        return sum
+                
+                if sum in old_sums:
+                        return sum
+                else:
+                        old_sums.add(sum)
 
 if __name__ == '__main__':
     main()
